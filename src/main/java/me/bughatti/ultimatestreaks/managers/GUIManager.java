@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,10 @@ public class GUIManager implements Listener {
     private final Map<UUID, Integer> openPages = new HashMap<>();
 
     private static final int ITEMS_PER_PAGE = 45; // slots 0-44, dejamos la fila de abajo para las flechas
+
+    private enum DayState {
+        LOCKED, UNLOCKED, CLAIMED
+    }
 
     public GUIManager(UltimateStreaks plugin) {
         this.plugin = plugin;
@@ -79,31 +84,59 @@ public class GUIManager implements Listener {
         return item;
     }
 
+    private DayState getDayState(Player player, int day) {
+        int currentDay = plugin.getDataManager().getCurrentDay(player.getUniqueId());
+        boolean canClaim = plugin.getDataManager().canClaim(player.getUniqueId());
+        long lastClaim = plugin.getDataManager().getLastClaim(player.getUniqueId());
+
+        if (day < currentDay || (day == currentDay && !canClaim && lastClaim != 0)) {
+            return DayState.CLAIMED;
+        } else if (day == currentDay && canClaim) {
+            return DayState.UNLOCKED;
+        } else {
+            return DayState.LOCKED;
+        }
+    }
+
     private ItemStack buildDayItem(Player player, int day) {
         String dayKey = "day_" + day;
         ConfigurationSection section = plugin.getConfigManager().getStreakSection(dayKey);
         if (section == null) return null;
 
-        Material material = Material.matchMaterial(section.getString("material", "STONE"));
-        if (material == null) material = Material.STONE;
+        DayState state = getDayState(player, day);
+
+        String statusPath = switch (state) {
+            case LOCKED -> "gui.locked-item";
+            case UNLOCKED -> "gui.unlocked-item";
+            case CLAIMED -> "gui.claimed-item";
+        };
+
+        ConfigurationSection statusSection = plugin.getConfig().getConfigurationSection(statusPath);
+
+        Material material;
+        String statusName;
+        List<String> statusLore;
+
+        if (statusSection != null) {
+            material = Material.matchMaterial(statusSection.getString("material", "GRAY_DYE"));
+            if (material == null) material = Material.GRAY_DYE;
+            statusName = statusSection.getString("name", "");
+            statusLore = plugin.getConfigManager().colorizeList(statusSection.getStringList("lore"));
+        } else {
+            material = Material.GRAY_DYE;
+            statusName = "";
+            statusLore = new ArrayList<>();
+        }
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(plugin.getConfigManager().colorize(section.getString("name", "&fDía " + day)));
+            String dayName = section.getString("name", "&fDía " + day);
+            meta.setDisplayName(plugin.getConfigManager().colorize(dayName + " &8- " + statusName));
 
             List<String> lore = plugin.getConfigManager().colorizeList(section.getStringList("lore"));
-
-            int currentDay = plugin.getDataManager().getCurrentDay(player.getUniqueId());
-            boolean canClaim = plugin.getDataManager().canClaim(player.getUniqueId());
-
-            if (day < currentDay || (day == currentDay && !canClaim && plugin.getDataManager().getLastClaim(player.getUniqueId()) != 0)) {
-                lore.add(plugin.getConfigManager().colorize("&8✔ Reclamado"));
-            } else if (day == currentDay && canClaim) {
-                lore.add(plugin.getConfigManager().colorize("&a✔ Disponible para reclamar"));
-            } else {
-                lore.add(plugin.getConfigManager().colorize("&c✘ Bloqueado"));
-            }
+            lore.add("");
+            lore.addAll(statusLore);
 
             meta.setLore(lore);
             item.setItemMeta(meta);
@@ -147,15 +180,16 @@ public class GUIManager implements Listener {
 
         if (day > plugin.getConfigManager().getMaxStreakDays()) return;
 
-        int currentDay = plugin.getDataManager().getCurrentDay(player.getUniqueId());
-        boolean canClaim = plugin.getDataManager().canClaim(player.getUniqueId());
+        DayState state = getDayState(player, day);
 
-        if (day == currentDay && canClaim) {
-            claimDay(player, day);
-            openMenu(player, page);
-        } else {
-            player.sendMessage(plugin.getConfigManager().getMessage("already-claimed")
+        switch (state) {
+            case UNLOCKED -> {
+                claimDay(player, day);
+                openMenu(player, page);
+            }
+            case CLAIMED -> player.sendMessage(plugin.getConfigManager().getMessage("already-claimed")
                     .replace("{time}", plugin.getDataManager().getTimeUntilNextClaim(player.getUniqueId())));
+            case LOCKED -> player.sendMessage(plugin.getConfigManager().getMessage("day-locked"));
         }
     }
 
@@ -176,8 +210,7 @@ public class GUIManager implements Listener {
     }
 
     private String stripToBase(String colorized) {
-        // Compara solo el inicio del título para no depender de la página exacta
         int idx = colorized.indexOf("Rachas");
         return idx >= 0 ? colorized.substring(0, idx + 6) : colorized;
     }
-              }
+            }
