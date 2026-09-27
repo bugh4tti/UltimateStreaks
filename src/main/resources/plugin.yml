@@ -1,0 +1,12 @@
+name: UltimateStreaks
+version: '1.0.0'
+main: me.bughatti.ultimatestreaks.UltimateStreaks
+api-version: '1.20'
+author: Bughatti
+description: Plugin de rachas (streaks) diarias
+
+commands:
+  ultimatestreaks:
+    description: Comando principal de UltimateStreaks
+    aliases: [us, ustreaks, streak, racha]
+    usage: /<command> help
