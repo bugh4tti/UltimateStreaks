@@ -10,6 +10,7 @@ messages:
   reload-success: "&aConfiguración recargada correctamente."
   claim-success: "&aReclamaste la racha del día &e{day}&a!"
   already-claimed: "&cYa reclamaste tu racha de hoy. Volvé en &e{time}&c."
+  day-locked: "&cTodavía no llegaste a este día de racha."
   invalid-day: "&cEl día de racha ingresado no es válido."
   give-success: "&aLe diste la racha del día &e{day}&a a &e{player}&a."
   give-received: "&aRecibiste la racha del día &e{day}&a."
@@ -25,6 +26,23 @@ gui:
     material: ARROW
     name: "&c&lPágina Anterior"
     slot: 45
+  locked-item:
+    material: GRAY_DYE
+    name: "&c&lBloqueado"
+    lore:
+      - "&7Todavía no llegaste a este día."
+      - "&7Seguí reclamando tu racha diaria."
+  unlocked-item:
+    material: LIME_DYE
+    name: "&a&lDesbloqueado"
+    lore:
+      - "&7¡Ya podés reclamar esta racha!"
+      - "&aClickeá para reclamar"
+  claimed-item:
+    material: GRAY_DYE
+    name: "&8&lReclamado"
+    lore:
+      - "&7Ya reclamaste esta racha."
 
 streaks:
   day_1:
@@ -32,8 +50,6 @@ streaks:
     name: "&e&lRacha Día 1"
     lore:
       - "&7Recompensa del primer día"
-      - ""
-      - "&aClickeá para reclamar"
     command-rewards:
       - "give {player} bread 5"
     slot: 0
@@ -42,8 +58,408 @@ streaks:
     name: "&e&lRacha Día 2"
     lore:
       - "&7Recompensa del segundo día"
-      - ""
-      - "&aClickeá para reclamar"
     command-rewards:
       - "give {player} cooked_beef 5"
     slot: 1
+  day_3:
+    material: COOKED_CHICKEN
+    name: "&e&lRacha Día 3"
+    lore:
+      - "&7Recompensa del día 3"
+    command-rewards:
+      - "give {player} cooked_chicken 8"
+    slot: 2
+  day_4:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 4"
+    lore:
+      - "&7Recompensa del día 4"
+    command-rewards:
+      - "give {player} iron_ingot 4"
+    slot: 3
+  day_5:
+    material: GOLD_INGOT
+    name: "&6&lRacha Día 5"
+    lore:
+      - "&7¡Recompensa especial de la semana!"
+    command-rewards:
+      - "give {player} gold_ingot 4"
+      - "eco give {player} 500"
+    slot: 4
+  day_6:
+    material: EXPERIENCE_BOTTLE
+    name: "&e&lRacha Día 6"
+    lore:
+      - "&7Recompensa del día 6"
+    command-rewards:
+      - "give {player} experience_bottle 5"
+    slot: 5
+  day_7:
+    material: DIAMOND
+    name: "&b&lRacha Día 7"
+    lore:
+      - "&7¡Una semana completa!"
+    command-rewards:
+      - "give {player} diamond 2"
+      - "eco give {player} 1000"
+    slot: 6
+  day_8:
+    material: BREAD
+    name: "&e&lRacha Día 8"
+    lore:
+      - "&7Recompensa del día 8"
+    command-rewards:
+      - "give {player} bread 8"
+    slot: 7
+  day_9:
+    material: COOKED_BEEF
+    name: "&e&lRacha Día 9"
+    lore:
+      - "&7Recompensa del día 9"
+    command-rewards:
+      - "give {player} cooked_beef 8"
+    slot: 8
+  day_10:
+    material: EMERALD
+    name: "&a&lRacha Día 10"
+    lore:
+      - "&7¡Recompensa especial!"
+    command-rewards:
+      - "give {player} emerald 5"
+      - "eco give {player} 1500"
+    slot: 9
+  day_11:
+    material: ARROW
+    name: "&e&lRacha Día 11"
+    lore:
+      - "&7Recompensa del día 11"
+    command-rewards:
+      - "give {player} arrow 16"
+    slot: 10
+  day_12:
+    material: COOKED_CHICKEN
+    name: "&e&lRacha Día 12"
+    lore:
+      - "&7Recompensa del día 12"
+    command-rewards:
+      - "give {player} cooked_chicken 10"
+    slot: 11
+  day_13:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 13"
+    lore:
+      - "&7Recompensa del día 13"
+    command-rewards:
+      - "give {player} iron_ingot 6"
+    slot: 12
+  day_14:
+    material: DIAMOND
+    name: "&b&lRacha Día 14"
+    lore:
+      - "&7¡Dos semanas completas!"
+    command-rewards:
+      - "give {player} diamond 3"
+      - "eco give {player} 2000"
+    slot: 13
+  day_15:
+    material: GOLD_INGOT
+    name: "&6&lRacha Día 15"
+    lore:
+      - "&7Recompensa especial"
+    command-rewards:
+      - "give {player} gold_ingot 6"
+      - "eco give {player} 2000"
+    slot: 14
+  day_16:
+    material: BREAD
+    name: "&e&lRacha Día 16"
+    lore:
+      - "&7Recompensa del día 16"
+    command-rewards:
+      - "give {player} bread 10"
+    slot: 15
+  day_17:
+    material: EXPERIENCE_BOTTLE
+    name: "&e&lRacha Día 17"
+    lore:
+      - "&7Recompensa del día 17"
+    command-rewards:
+      - "give {player} experience_bottle 8"
+    slot: 16
+  day_18:
+    material: COOKED_BEEF
+    name: "&e&lRacha Día 18"
+    lore:
+      - "&7Recompensa del día 18"
+    command-rewards:
+      - "give {player} cooked_beef 10"
+    slot: 17
+  day_19:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 19"
+    lore:
+      - "&7Recompensa del día 19"
+    command-rewards:
+      - "give {player} iron_ingot 8"
+    slot: 18
+  day_20:
+    material: EMERALD
+    name: "&a&lRacha Día 20"
+    lore:
+      - "&7¡Recompensa especial!"
+    command-rewards:
+      - "give {player} emerald 8"
+      - "eco give {player} 3000"
+    slot: 19
+  day_21:
+    material: DIAMOND
+    name: "&b&lRacha Día 21"
+    lore:
+      - "&7¡Tres semanas completas!"
+    command-rewards:
+      - "give {player} diamond 4"
+      - "eco give {player} 3000"
+    slot: 20
+  day_22:
+    material: BREAD
+    name: "&e&lRacha Día 22"
+    lore:
+      - "&7Recompensa del día 22"
+    command-rewards:
+      - "give {player} bread 12"
+    slot: 21
+  day_23:
+    material: COOKED_CHICKEN
+    name: "&e&lRacha Día 23"
+    lore:
+      - "&7Recompensa del día 23"
+    command-rewards:
+      - "give {player} cooked_chicken 12"
+    slot: 22
+  day_24:
+    material: GOLD_INGOT
+    name: "&e&lRacha Día 24"
+    lore:
+      - "&7Recompensa del día 24"
+    command-rewards:
+      - "give {player} gold_ingot 8"
+    slot: 23
+  day_25:
+    material: NETHERITE_SCRAP
+    name: "&6&lRacha Día 25"
+    lore:
+      - "&7¡Medio camino recorrido!"
+    command-rewards:
+      - "give {player} netherite_scrap 1"
+      - "eco give {player} 5000"
+    slot: 24
+  day_26:
+    material: BREAD
+    name: "&e&lRacha Día 26"
+    lore:
+      - "&7Recompensa del día 26"
+    command-rewards:
+      - "give {player} bread 14"
+    slot: 25
+  day_27:
+    material: COOKED_BEEF
+    name: "&e&lRacha Día 27"
+    lore:
+      - "&7Recompensa del día 27"
+    command-rewards:
+      - "give {player} cooked_beef 14"
+    slot: 26
+  day_28:
+    material: DIAMOND
+    name: "&b&lRacha Día 28"
+    lore:
+      - "&7¡Cuatro semanas completas!"
+    command-rewards:
+      - "give {player} diamond 5"
+      - "eco give {player} 3500"
+    slot: 27
+  day_29:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 29"
+    lore:
+      - "&7Recompensa del día 29"
+    command-rewards:
+      - "give {player} iron_ingot 10"
+    slot: 28
+  day_30:
+    material: EMERALD
+    name: "&a&lRacha Día 30"
+    lore:
+      - "&7¡Recompensa especial!"
+    command-rewards:
+      - "give {player} emerald 10"
+      - "eco give {player} 4000"
+    slot: 29
+  day_31:
+    material: COOKED_CHICKEN
+    name: "&e&lRacha Día 31"
+    lore:
+      - "&7Recompensa del día 31"
+    command-rewards:
+      - "give {player} cooked_chicken 14"
+    slot: 30
+  day_32:
+    material: GOLD_INGOT
+    name: "&e&lRacha Día 32"
+    lore:
+      - "&7Recompensa del día 32"
+    command-rewards:
+      - "give {player} gold_ingot 10"
+    slot: 31
+  day_33:
+    material: EXPERIENCE_BOTTLE
+    name: "&e&lRacha Día 33"
+    lore:
+      - "&7Recompensa del día 33"
+    command-rewards:
+      - "give {player} experience_bottle 10"
+    slot: 32
+  day_34:
+    material: BREAD
+    name: "&e&lRacha Día 34"
+    lore:
+      - "&7Recompensa del día 34"
+    command-rewards:
+      - "give {player} bread 16"
+    slot: 33
+  day_35:
+    material: DIAMOND
+    name: "&b&lRacha Día 35"
+    lore:
+      - "&7¡Cinco semanas completas!"
+    command-rewards:
+      - "give {player} diamond 6"
+      - "eco give {player} 4500"
+    slot: 34
+  day_36:
+    material: COOKED_BEEF
+    name: "&e&lRacha Día 36"
+    lore:
+      - "&7Recompensa del día 36"
+    command-rewards:
+      - "give {player} cooked_beef 16"
+    slot: 35
+  day_37:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 37"
+    lore:
+      - "&7Recompensa del día 37"
+    command-rewards:
+      - "give {player} iron_ingot 12"
+    slot: 36
+  day_38:
+    material: EMERALD
+    name: "&e&lRacha Día 38"
+    lore:
+      - "&7Recompensa del día 38"
+    command-rewards:
+      - "give {player} emerald 12"
+    slot: 37
+  day_39:
+    material: GOLD_INGOT
+    name: "&e&lRacha Día 39"
+    lore:
+      - "&7Recompensa del día 39"
+    command-rewards:
+      - "give {player} gold_ingot 12"
+    slot: 38
+  day_40:
+    material: NETHERITE_SCRAP
+    name: "&6&lRacha Día 40"
+    lore:
+      - "&7¡Recompensa especial!"
+    command-rewards:
+      - "give {player} netherite_scrap 2"
+      - "eco give {player} 6000"
+    slot: 39
+  day_41:
+    material: BREAD
+    name: "&e&lRacha Día 41"
+    lore:
+      - "&7Recompensa del día 41"
+    command-rewards:
+      - "give {player} bread 18"
+    slot: 40
+  day_42:
+    material: DIAMOND
+    name: "&b&lRacha Día 42"
+    lore:
+      - "&7¡Seis semanas completas!"
+    command-rewards:
+      - "give {player} diamond 7"
+      - "eco give {player} 5000"
+    slot: 41
+  day_43:
+    material: COOKED_CHICKEN
+    name: "&e&lRacha Día 43"
+    lore:
+      - "&7Recompensa del día 43"
+    command-rewards:
+      - "give {player} cooked_chicken 18"
+    slot: 42
+  day_44:
+    material: IRON_INGOT
+    name: "&e&lRacha Día 44"
+    lore:
+      - "&7Recompensa del día 44"
+    command-rewards:
+      - "give {player} iron_ingot 14"
+    slot: 43
+  day_45:
+    material: EMERALD
+    name: "&a&lRacha Día 45"
+    lore:
+      - "&7¡Recompensa especial!"
+    command-rewards:
+      - "give {player} emerald 14"
+      - "eco give {player} 7000"
+    slot: 44
+  day_46:
+    material: GOLD_INGOT
+    name: "&e&lRacha Día 46"
+    lore:
+      - "&7Recompensa del día 46"
+    command-rewards:
+      - "give {player} gold_ingot 14"
+    slot: 45
+  day_47:
+    material: EXPERIENCE_BOTTLE
+    name: "&e&lRacha Día 47"
+    lore:
+      - "&7Recompensa del día 47"
+    command-rewards:
+      - "give {player} experience_bottle 14"
+    slot: 46
+  day_48:
+    material: DIAMOND
+    name: "&b&lRacha Día 48"
+    lore:
+      - "&7Recompensa del día 48"
+    command-rewards:
+      - "give {player} diamond 8"
+    slot: 47
+  day_49:
+    material: NETHERITE_SCRAP
+    name: "&6&lRacha Día 49"
+    lore:
+      - "&7¡Ya casi llegás al final!"
+    command-rewards:
+      - "give {player} netherite_scrap 3"
+      - "eco give {player} 8000"
+    slot: 48
+  day_50:
+    material: NETHERITE_INGOT
+    name: "&d&l&nRacha Día 50 - ¡FINAL!"
+    lore:
+      - "&7¡Completaste el ciclo de rachas!"
+      - "&7Esta es la recompensa máxima."
+    command-rewards:
+      - "give {player} netherite_ingot 1"
+      - "give {player} diamond 10"
+      - "eco give {player} 10000"
+    slot: 49
