@@ -1,0 +1,49 @@
+# Configuración general de UltimateStreaks
+
+settings:
+  max-streak-days: 50
+  streak-reset-hours: 24 # Horas que deben pasar para poder reclamar de nuevo
+
+messages:
+  prefix: "&8[&b&lStreaks&8] &r"
+  no-permission: "&cNo tenés permiso para hacer esto."
+  reload-success: "&aConfiguración recargada correctamente."
+  claim-success: "&aReclamaste la racha del día &e{day}&a!"
+  already-claimed: "&cYa reclamaste tu racha de hoy. Volvé en &e{time}&c."
+  invalid-day: "&cEl día de racha ingresado no es válido."
+  give-success: "&aLe diste la racha del día &e{day}&a a &e{player}&a."
+  give-received: "&aRecibiste la racha del día &e{day}&a."
+
+gui:
+  title: "&8&lRachas &7- &ePágina {page}"
+  size: 54
+  next-page-item:
+    material: ARROW
+    name: "&a&lSiguiente Página"
+    slot: 53
+  previous-page-item:
+    material: ARROW
+    name: "&c&lPágina Anterior"
+    slot: 45
+
+streaks:
+  day_1:
+    material: BREAD
+    name: "&e&lRacha Día 1"
+    lore:
+      - "&7Recompensa del primer día"
+      - ""
+      - "&aClickeá para reclamar"
+    command-rewards:
+      - "give {player} bread 5"
+    slot: 0
+  day_2:
+    material: COOKED_BEEF
+    name: "&e&lRacha Día 2"
+    lore:
+      - "&7Recompensa del segundo día"
+      - ""
+      - "&aClickeá para reclamar"
+    command-rewards:
+      - "give {player} cooked_beef 5"
+    slot: 1
