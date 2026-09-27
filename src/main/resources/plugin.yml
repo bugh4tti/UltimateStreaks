@@ -10,3 +10,14 @@ commands:
     description: Comando principal de UltimateStreaks
     aliases: [us, ustreaks, streak, racha]
     usage: /<command> help
+
+permissions:
+  ultimatestreaks.claim:
+    description: Permite reclamar rachas diarias
+    default: true
+  ultimatestreaks.give:
+    description: Permite darle una racha a otro jugador
+    default: op
+  ultimatestreaks.reload:
+    description: Permite recargar la configuración
+    default: op
